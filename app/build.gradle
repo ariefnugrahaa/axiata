@@ -85,23 +85,6 @@ android {
         }
     }
 
-//    applicationVariants.all { variant ->
-//        def signingConf
-//        def release = variant.getName().contains('Release')
-//        def currentDate = new Date().format('ddMMyyyy')
-//
-//        if (release) {
-//            signingConf = signingConfigs.release
-//        } else {
-//            signingConf = signingConfigs.develop
-//        }
-//
-//        variant.mergedFlavor.signingConfig = signingConf
-//        variant.outputs.all {
-//            outputFileName = "${variant.name}-${appVersionName}(${appVersionCode})-${currentDate}-${getGitHash}.apk"
-//        }
-//    }
-
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
         exclude 'META-INF/app_developmentDebug.kotlin_module'
