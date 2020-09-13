@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="headline">Headline</string>
+    <string name="description">Description</string>
+    <string name="retry_connection">Retry Connection</string>
+    <string name="please_wait">Please Wait....</string>
+    <string name="source">Source:</string>
+    <string name="hello_axiata">hello_axiata</string>
+    <string name="entertaiment">Entertaiment</string>
+    <string name="search_articles">Search Articles</string>
+</resources>

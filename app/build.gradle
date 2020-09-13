@@ -1,0 +1,179 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: "$rootDir/build-system/jacoco.gradle"
+apply from: "$rootDir/build-system/utils.gradle"
+apply from: "$rootDir/build-system/dependencies.gradle"
+
+
+android {
+    compileSdkVersion compileVersion
+    buildToolsVersion buildVersion
+    flavorDimensions "default"
+    aaptOptions {
+        noCompress "webp"
+    }
+    defaultConfig {
+        applicationId "works.newsapi.arief"
+        minSdkVersion minVersion
+        targetSdkVersion targetVersion
+        versionCode appVersionCode
+        versionName appVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(NEWSAPI_KEYSTORE)
+            storePassword NEWSAPI_KEYSTORE_PASSWORD
+            keyAlias NEWSAPI_KEY_ALIAS
+            keyPassword NEWSAPI_KEY_PASSWORD
+        }
+        develop {
+            storeFile file(NEWSAPI_KEYSTORE)
+            storePassword NEWSAPI_KEYSTORE_PASSWORD
+            keyAlias NEWSAPI_KEY_ALIAS
+            keyPassword NEWSAPI_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            debuggable true
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        production {
+            resValue "string", "app_name", "NewsApi Arief"
+            buildConfigField "String", "BASE_URL", BASE_URL_PRODUCTION
+        }
+        develop {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-develop"
+            resValue "string", "app_name", "NewsApi Arief Dev"
+            buildConfigField "String", "BASE_URL", BASE_URL_DEVELOPMENT
+        }
+    }
+
+//    applicationVariants.all { variant ->
+//        def signingConf
+//        def release = variant.getName().contains('Release')
+//        def currentDate = new Date().format('ddMMyyyy')
+//
+//        if (release) {
+//            signingConf = signingConfigs.release
+//        } else {
+//            signingConf = signingConfigs.develop
+//        }
+//
+//        variant.mergedFlavor.signingConfig = signingConf
+//        variant.outputs.all {
+//            outputFileName = "${variant.name}-${appVersionName}(${appVersionCode})-${currentDate}-${getGitHash}.apk"
+//        }
+//    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/app_developmentDebug.kotlin_module'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            jvmArgs '-noverify'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    kapt compiler.daggerCompiler
+
+    annotationProcessor annotation.daggerAnnotation
+
+    implementation androidxLibraries.appCompat
+    implementation androidxLibraries.recyclerView
+    implementation androidxLibraries.cardView
+    implementation androidxLibraries.supportv13
+    implementation androidxLibraries.supportv4
+    implementation androidxLibraries.annotation
+    implementation androidxLibraries.design
+    implementation androidxLibraries.vectorDrawable
+    implementation androidxLibraries.multidex
+
+    implementation kotlinLibraries.kotlin
+    implementation kotlinLibraries.kotlinReflect
+
+    implementation rxLibraries.rxJava2
+    implementation rxLibraries.rxAndroid
+    implementation rxLibraries.rxBinding2
+    implementation rxLibraries.rxBinding2Support
+
+    implementation networkLibraries.retrofit
+    implementation networkLibraries.gsonConverter
+    implementation networkLibraries.rxJava2Adapter
+    implementation networkLibraries.okhttp
+    implementation networkLibraries.interceptor
+
+    implementation libraries.dagger
+    implementation libraries.gson
+    implementation libraries.chuck
+    implementation libraries.curlLoggerInterceptor
+    implementation libraries.stetho
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.4.0'
+    testImplementation "io.mockk:mockk:1.10.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+}
