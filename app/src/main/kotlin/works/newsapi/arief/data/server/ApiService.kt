@@ -9,14 +9,6 @@ import works.newsapi.arief.data.server.entity.response.NewsSourcesResponse
 
 interface ApiService {
 
-    @GET(NEWS)
-    fun getNews(
-        @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int = 5,
-        @Query("country") country: String = "id",
-        @Query("category") category: String = "technology"
-    ): Observable<NewsResponse>
-
     @GET(NEWS_SOURCES)
     fun getNewsSources(
             @Query("category") category: String,
@@ -32,7 +24,6 @@ interface ApiService {
     ): Observable<NewsArticlesResponse>
 
     private companion object {
-        const val NEWS = "v2/top-headlines"
         const val NEWS_SOURCES = "v2/sources"
         const val NEWS_ARTICLES = "v2/top-headlines"
     }

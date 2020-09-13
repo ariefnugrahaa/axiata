@@ -92,6 +92,7 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     override fun onError(it: Throwable?) {
         recyclerview_list_sources.makeGone()
+        btn_retry_connection_sources.makeVisible()
         btn_retry_connection_sources.setOnClickListener {
             presenter.fetchNewsSourcesData(extraCategory)
         }

@@ -63,4 +63,15 @@
         android:visibility="gone"
         app:layout="@layout/shimmer_loading_item" />
 
+    <Button
+        android:id="@+id/btn_retry_connection_articles"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:background="@color/chuck_status_500"
+        android:text="@string/retry_connection"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:cornerRadius="5dp" />
+
 </RelativeLayout>

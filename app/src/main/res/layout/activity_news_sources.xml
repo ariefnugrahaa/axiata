@@ -39,7 +39,7 @@
                     android:id="@+id/edittext_search_sources"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Search Source"
+                    android:hint="@string/search_source_here"
                     android:background="@null" />
 
             </LinearLayout>

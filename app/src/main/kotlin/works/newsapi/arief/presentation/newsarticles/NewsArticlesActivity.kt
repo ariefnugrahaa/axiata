@@ -99,6 +99,10 @@ class NewsArticlesActivity : AppCompatActivity(), NewsArticlesContract.View {
 
     override fun onError(it: Throwable?) {
         shimmer_loading_articles.makeGone()
+        btn_retry_connection_articles.makeVisible()
+        btn_retry_connection_articles.setOnClickListener {
+            presenter.fetchNewsArticlesData(extraSource)
+        }
     }
 
     override fun showListData(it: List<NewsArticlesResponse.Article>) {
@@ -120,6 +124,7 @@ class NewsArticlesActivity : AppCompatActivity(), NewsArticlesContract.View {
     }
 
     override fun showLoading() {
+        btn_retry_connection_articles.makeGone()
         shimmer_loading_articles.makeVisible()
     }
 
